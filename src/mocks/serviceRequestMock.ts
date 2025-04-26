@@ -1,4 +1,4 @@
-import type { ServiceRequest, Status } from './serviceRequest'
+import type { ServiceRequest, Status } from '../types/serviceRequest'
 import { MOCK_COMPANY } from './company'
 const pickRandomFromArray = <T>(arr: T[]) => {
   const randomIndex = Math.floor(Math.random() * arr.length)

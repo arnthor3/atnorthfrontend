@@ -1,34 +1,16 @@
 import { http, HttpResponse } from 'msw'
 import { createServiceRequests } from './serviceRequestMock'
-import { validateSession, simulateWait, JSON_HEADER } from './mockUtils'
+import { validateSession, simulateWait } from './mockUtils'
+import { MOCK_USER_SESSION } from './user'
 
-export type Status =
-  | 'in_progress'
-  | 'waiting_to_start'
-  | 'completed'
-  | 'cancelled'
-
-export type ServiceRequest = {
-  reference: string
-  type: string
-  summary: string
-  status: Status
-  serviceProject: string
-  requester: string
-  created: Date
-  completed?: Date
-}
 // on page refresh we will get a different set of mocks, not ideal but ok for
 // this scenario,
 const MOCK_REQUEST_POOL_SIZE = 10
 const allMockServiceRequests = createServiceRequests(MOCK_REQUEST_POOL_SIZE)
 
 export const getServiceRequests = http.get(
-  '/api/company/:id/service-requests',
+  '/api/company/:id/service-request',
   async ({ cookies, params }) => {
-    if (params.id !== 'comp-1234567890') {
-      return HttpResponse.json({ error: 'Company not found' }, { status: 404 })
-    }
     if (!validateSession(cookies.sessionId)) {
       return HttpResponse.json(
         { error: 'Unauthorized' },
@@ -36,14 +18,12 @@ export const getServiceRequests = http.get(
       )
     }
 
-    try {
-      await simulateWait({ waitRange: [200, 800], chancesOfError: 5 })
-    } catch (error: any) {
-      return HttpResponse.json(
-        { error: error.message || 'Failed to fetch service requests' },
-        { status: 500 }
-      )
+    if (params.id !== MOCK_USER_SESSION.company) {
+      return HttpResponse.json({ error: 'Company not found' }, { status: 404 })
     }
+
+    await simulateWait([200, 800])
+
     return HttpResponse.json(
       { data: allMockServiceRequests },
       { status: 200, statusText: 'OK' }

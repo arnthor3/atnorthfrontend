@@ -40,11 +40,14 @@ export const getCompany = http.get(
         { status: 401, statusText: 'Unauthorized' }
       )
     }
-    await simulateWait({ waitRange: [100, 400] })
+    await simulateWait([100, 400])
     if (params.id === MOCK_COMPANY.id) {
-      return HttpResponse.json(MOCK_COMPANY, {
-        status: 200
-      })
+      return HttpResponse.json(
+        { data: MOCK_COMPANY },
+        {
+          status: 200
+        }
+      )
     }
     return HttpResponse.json({ error: 'Company not found' }, { status: 404 })
   }

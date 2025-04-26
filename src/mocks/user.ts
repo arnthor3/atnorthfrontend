@@ -1,29 +1,8 @@
 import { http, HttpResponse } from 'msw'
-import {
-  generateSessionId,
-  JSON_HEADER,
-  simulateWait,
-  validateSession
-} from './mockUtils'
+import { generateSessionId, simulateWait, validateSession } from './mockUtils'
+import type { User, UserJsonBody } from '../types/user'
 
-export type UserInfo = {
-  sessionId: string
-  userId: string
-  username: string
-  initials: string
-  email: string
-  role: string
-  lastActivity: Date
-  expiresAt: Date
-  company: string
-}
-
-type UserJsonBody = {
-  email: string
-  password: string
-}
-
-const MOCK_USER_SESSION: UserInfo = {
+export const MOCK_USER_SESSION: User = {
   sessionId: '1234567890',
   userId: '1234567890',
   username: 'Keith Richards',
@@ -35,8 +14,8 @@ const MOCK_USER_SESSION: UserInfo = {
   company: 'comp-1234567890'
 }
 
-const USER_CREDENTIALS: UserJsonBody = {
-  email: 'keith.richards@test.com',
+export const USER_CREDENTIALS: UserJsonBody = {
+  email: MOCK_USER_SESSION.email,
   password: 'test1234'
 }
 
@@ -45,41 +24,28 @@ const SESSION_EXPIRY = 5 * 60 * 1000
 export const login = http.post('/api/login', async ({ request, cookies }) => {
   if (validateSession(cookies.sessionId)) {
     return HttpResponse.json(
-      { message: `Already logged in ${cookies.sessionId}` },
+      {
+        message: `Active session in place`,
+        data: MOCK_USER_SESSION
+      },
       { status: 200 }
     )
   }
 
   const { email, password } = (await request.json()) as UserJsonBody
-  try {
-    await simulateWait({
-      waitRange: [300, 900],
-      chancesOfError: 15,
-      errorMessage:
-        'Opps... Something went wrong, please try again - (mock error)'
-    })
-  } catch (error) {
-    return HttpResponse.json(
-      { data: error },
-      {
-        status: 500,
-        headers: { ...JSON_HEADER },
-        statusText: 'Internal Server Error'
-      }
-    )
-  }
+
+  await simulateWait([300, 900])
 
   if (
     email !== USER_CREDENTIALS.email ||
     password !== USER_CREDENTIALS.password
   ) {
     return HttpResponse.json(
-      { error: 'Invalid username or password' },
+      { data: 'error', error: 'Invalid username or password' },
       { status: 401, statusText: 'Unauthorized' }
     )
   }
   const sessionId = generateSessionId()
-  console.log(sessionId)
   return HttpResponse.json(
     { status: 'success', data: MOCK_USER_SESSION },
     {
