@@ -1,14 +1,6 @@
 import { http, HttpResponse } from 'msw'
 import { validateSession, simulateWait } from './mockUtils'
 
-export type Company = {
-  name: string
-  id: string
-  sites: string[]
-  groups: string[]
-  users: string[]
-}
-
 export const MOCK_COMPANY = {
   name: 'Demo Org',
   id: 'comp-1234567890',
