@@ -1,35 +1,6 @@
-type SimulateWaitArgs = {
-  /**
-   * A number between 0 and 100 tested against a random number to simulate a bad server experience
-   */
-  chancesOfError?: number
-  /**
-   * Set the error message to be sent back if the chances of error is triggered
-   */
-  errorMessage?: string
-  /**
-   * The wait period in ms, total time will be between low + random fraction of range
-   */
-  waitRange?: [number, number]
-}
-
-/**
- * Simulates an asynchronous operation like a server request, introducing a
- * variable delay and potentially throwing an error based on configured chances.
- * Useful for mocking network latency and server failures.
- *
- * @param {SimulateWaitArgs} options - Configuration object for the simulation.
- * @param {number} [options.chancesOfError=0] - Percentage chance (0-100) of the simulation throwing an error.
- * @param {string} [options.errorMessage=""] - The message for the Error object if an error is thrown.
- * @param {[number, number]} [options.waitRange=[500, 1000]] - Tuple defining the minimum (inclusive) and maximum (exclusive) wait time in milliseconds. If `low > high`, the range defaults to `[0, low]`.
- * @returns {Promise<void>} A promise that resolves with no value after the simulated delay if no error occurs.
- * @throws {Error} Rejects with an `Error` object containing the `errorMessage` if the simulation triggers an error based on `chancesOfError`.
- */
-export const simulateWait = async ({
-  chancesOfError = 0,
-  errorMessage = '',
-  waitRange = [500, 1000]
-}: SimulateWaitArgs): Promise<void> => {
+export const simulateWait = async (
+  waitRange: [number, number]
+): Promise<void> => {
   let [low, high] = waitRange
   // Handle faulty range
   if (low > high) {
@@ -39,12 +10,9 @@ export const simulateWait = async ({
   }
 
   const waitMs = Math.floor(Math.random() * (high - low)) + low
-  const willThrow = Math.random() * 100 < chancesOfError
-  await new Promise((res, rej) => {
+
+  await new Promise((res) => {
     setTimeout(() => {
-      if (willThrow) {
-        rej(new Error(errorMessage))
-      }
       res(null)
     }, waitMs)
   })
