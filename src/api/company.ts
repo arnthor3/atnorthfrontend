@@ -1,5 +1,5 @@
 import ky from 'ky'
-import type { Company } from '../mocks/company'
+import type { Company } from '../types'
 type CompanySuccessResponse = {
   data: Company
 }

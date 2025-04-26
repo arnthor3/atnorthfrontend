@@ -1,6 +1,6 @@
 import ky from 'ky'
 
-import type { User } from '../types/user'
+import type { User } from '../types'
 export type UserAuth = {
   email: string
   password: string
