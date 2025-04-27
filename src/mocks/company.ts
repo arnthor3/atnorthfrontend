@@ -1,41 +1,36 @@
 import { http, HttpResponse } from 'msw'
 import { validateSession, simulateWait } from './mockUtils'
+import type { Company } from '@/types'
 
-export const MOCK_COMPANY = {
+export const MOCK_COMPANY: Company = {
   name: 'Demo Org',
   id: 'comp-1234567890',
-  sites: ['ICE01', 'DEN02', 'SWE03', 'NOR01'],
-  groups: [
-    'admin',
-    'org admin',
-    'user',
-    'guest',
-    'read-only',
-    'disabled',
-    'deleted'
-  ],
-  users: [
-    'John Doe',
-    'Jane Doe',
-    'Bob Smith',
-    'Alice Johnson',
-    'Keith Richards'
-  ]
+  sites: 5,
+  notifications: 2,
+  groups: 20,
+  users: 25
 }
 
+const mock_dynamic_company = () => {
+  const users = Math.floor(Math.random() * 5) + 20
+  const sites = Math.floor(Math.random() * 5) + 5
+  const groups = Math.floor(Math.random() * 5) + 10
+  const notifications = Math.floor(Math.random() * 10) + 1
+  return { ...MOCK_COMPANY, users, sites, groups, notifications }
+}
 export const getCompany = http.get(
   '/api/company/:id',
   async ({ params, cookies }) => {
     if (!validateSession(cookies.sessionId)) {
       return HttpResponse.json(
-        { error: 'Unauthorized' },
+        { data: 'error', error: 'Unauthorized: Invalid or missing session' },
         { status: 401, statusText: 'Unauthorized' }
       )
     }
-    await simulateWait([100, 400])
+    await simulateWait([800, 1200])
     if (params.id === MOCK_COMPANY.id) {
       return HttpResponse.json(
-        { data: MOCK_COMPANY },
+        { data: mock_dynamic_company() },
         {
           status: 200
         }

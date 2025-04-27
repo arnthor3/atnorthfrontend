@@ -5,7 +5,7 @@ import { MOCK_USER_SESSION } from './user'
 
 // on page refresh we will get a different set of mocks, not ideal but ok for
 // this scenario,
-const MOCK_REQUEST_POOL_SIZE = 10
+const MOCK_REQUEST_POOL_SIZE = 5
 const allMockServiceRequests = createServiceRequests(MOCK_REQUEST_POOL_SIZE)
 
 export const getServiceRequests = http.get(
@@ -13,16 +13,19 @@ export const getServiceRequests = http.get(
   async ({ cookies, params }) => {
     if (!validateSession(cookies.sessionId)) {
       return HttpResponse.json(
-        { error: 'Unauthorized' },
+        { data: 'error', error: 'Unauthorized: Invalid or missing session' },
         { status: 401, statusText: 'Unauthorized' }
       )
     }
 
     if (params.id !== MOCK_USER_SESSION.company) {
-      return HttpResponse.json({ error: 'Company not found' }, { status: 404 })
+      return HttpResponse.json(
+        { error: 'Company not found', status: 'error' },
+        { status: 404 }
+      )
     }
 
-    await simulateWait([200, 800])
+    await simulateWait([600, 1000])
 
     return HttpResponse.json(
       { data: allMockServiceRequests },

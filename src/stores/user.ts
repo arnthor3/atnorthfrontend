@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { UserJsonBody as UserParams, User } from '../types'
 import * as api from '../api/user'
+import { HTTPError } from 'ky'
 
 export const useUserStore = defineStore('user', () => {
   const isAuthenticated = ref(false)
@@ -20,9 +21,25 @@ export const useUserStore = defineStore('user', () => {
       isAuthenticated.value = true
       user.value = res
     } catch (error) {
+      if (error instanceof HTTPError) {
+        try {
+          const errorBody = await error.response.json()
+          errorMessage.value =
+            errorBody?.error || 'An unknown API error occurred.'
+        } catch (parseError) {
+          console.error('Failed to parse error response body:', parseError)
+          errorMessage.value = error.message
+        }
+        return
+      }
       if (error instanceof Error) {
         errorMessage.value = error.message
+        return
       }
+      errorMessage.value = 'An unexpected error occurred.'
+
+      isAuthenticated.value = false
+      user.value = undefined
     } finally {
       isLoading.value = false
     }
@@ -42,12 +59,10 @@ export const useUserStore = defineStore('user', () => {
 
   async function getSession() {
     try {
-      await api.getSessionStatus()
+      user.value = await api.getSessionStatus()
       isAuthenticated.value = true
     } catch (error) {
-      if (error instanceof Error) {
-        errorMessage.value = error.message
-      }
+      isAuthenticated.value = false
     }
   }
 

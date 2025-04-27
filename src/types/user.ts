@@ -1,7 +1,7 @@
 export type User = {
   sessionId: string
   userId: string
-  username: string
+  name: string
   initials: string
   email: string
   role: string

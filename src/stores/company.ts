@@ -21,11 +21,16 @@ export const useCompanyStore = defineStore('company', () => {
       isLoading.value = false
     }
   }
-
+  function reset() {
+    company.value = undefined
+    isLoading.value = false
+    errorMessage.value = undefined
+  }
   return {
     company,
     isLoading,
     errorMessage,
-    getCompany
+    getCompany,
+    reset
   }
 })

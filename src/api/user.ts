@@ -1,10 +1,7 @@
 import ky from 'ky'
+import type { User, UserJsonBody } from '../types'
 
-import type { User } from '../types'
-export type UserAuth = {
-  email: string
-  password: string
-}
+export type UserAuth = UserJsonBody
 
 type LoginSuccessResponse = {
   data: User
@@ -16,9 +13,6 @@ export const login = async (userAuth: UserAuth): Promise<User | undefined> => {
       json: userAuth
     })
     .json<LoginSuccessResponse>()
-  if (!response || !response.data) {
-    throw new Error('Invalid successful response format from login API.')
-  }
   return response.data
 }
 
@@ -33,8 +27,5 @@ export const logout = async (): Promise<boolean> => {
 
 export const getSessionStatus = async (): Promise<User> => {
   const res = await ky.get('/api/session-status').json<LoginSuccessResponse>()
-  if (!res || !res.data) {
-    throw new Error('Invalid successful response format from login API.')
-  }
   return res.data
 }

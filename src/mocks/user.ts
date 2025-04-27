@@ -3,11 +3,11 @@ import { generateSessionId, simulateWait, validateSession } from './mockUtils'
 import type { User, UserJsonBody } from '../types/user'
 
 export const MOCK_USER_SESSION: User = {
-  sessionId: '1234567890',
-  userId: '1234567890',
-  username: 'Keith Richards',
+  sessionId: '',
+  userId: 'fake_user_id',
+  name: 'Keith Richards',
   initials: 'KR',
-  email: 'test@test.om',
+  email: 'test@test.com',
   role: 'org admin',
   lastActivity: new Date(),
   expiresAt: new Date(),
@@ -19,7 +19,7 @@ export const USER_CREDENTIALS: UserJsonBody = {
   password: 'test1234'
 }
 
-const SESSION_EXPIRY = 5 * 60 * 1000
+const SESSION_EXPIRY = 60 * 10
 
 export const login = http.post('/api/login', async ({ request, cookies }) => {
   if (validateSession(cookies.sessionId)) {
@@ -41,7 +41,7 @@ export const login = http.post('/api/login', async ({ request, cookies }) => {
     password !== USER_CREDENTIALS.password
   ) {
     return HttpResponse.json(
-      { data: 'error', error: 'Invalid username or password' },
+      { data: 'Error', status: 'error', error: 'Invalid username or password' },
       { status: 401, statusText: 'Unauthorized' }
     )
   }
@@ -64,15 +64,10 @@ export const sessionStatus = http.get('/api/session-status', ({ cookies }) => {
       { status: 200 }
     )
   }
+  localStorage.clear()
+
   return HttpResponse.json(
-    {
-      error: {
-        code: 'unauthorized',
-        message: 'No active session found.',
-        details:
-          'The user does not have a valid or active session on the server. Please authenticate or log in.'
-      }
-    },
+    { data: 'error', error: 'Unauthorized: Invalid or missing session' },
     { status: 401, statusText: 'Unauthorized' }
   )
 })

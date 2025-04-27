@@ -20,11 +20,16 @@ export const useServiceRequestStore = defineStore('service_request', () => {
       isLoading.value = false
     }
   }
-
+  function reset() {
+    serviceRequests.value = undefined
+    isLoading.value = false
+    errorMessage.value = undefined
+  }
   return {
     serviceRequests,
     isLoading,
     errorMessage,
-    getServiceRequests
+    getServiceRequests,
+    reset
   }
 })
