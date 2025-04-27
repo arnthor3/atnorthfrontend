@@ -1,4 +1,4 @@
-import ky from 'ky'
+import ky, { HTTPError } from 'ky'
 import type { User, UserJsonBody } from '../types'
 
 export type UserAuth = UserJsonBody
@@ -8,12 +8,20 @@ type LoginSuccessResponse = {
 }
 
 export const login = async (userAuth: UserAuth): Promise<User | undefined> => {
-  const response = await ky
-    .post('/api/login', {
-      json: userAuth
-    })
-    .json<LoginSuccessResponse>()
-  return response.data
+  try {
+    const response = await ky
+      .post('/api/login', {
+        json: userAuth
+      })
+      .json<LoginSuccessResponse>()
+    return response.data
+  } catch (error: unknown) {
+    if (error instanceof HTTPError) {
+      const errorBody = await error.response.json()
+      console.log(errorBody.error)
+      throw new Error(errorBody.error)
+    }
+  }
 }
 
 export const logout = async (): Promise<boolean> => {

@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { UserJsonBody as UserParams, User } from '../types'
 import * as api from '../api/user'
-import { HTTPError } from 'ky'
 
 export const useUserStore = defineStore('user', () => {
   const isAuthenticated = ref(false)
@@ -14,32 +13,14 @@ export const useUserStore = defineStore('user', () => {
     isLoading.value = true
     try {
       const res = await api.login(params)
-      if (typeof res === 'undefined') {
-        errorMessage.value = 'Unexpected error'
-        return
-      }
       isAuthenticated.value = true
       user.value = res
-    } catch (error) {
-      if (error instanceof HTTPError) {
-        try {
-          const errorBody = await error.response.json()
-          errorMessage.value =
-            errorBody?.error || 'An unknown API error occurred.'
-        } catch (parseError) {
-          console.error('Failed to parse error response body:', parseError)
-          errorMessage.value = error.message
-        }
-        return
-      }
+    } catch (error: unknown) {
       if (error instanceof Error) {
         errorMessage.value = error.message
         return
       }
-      errorMessage.value = 'An unexpected error occurred.'
-
-      isAuthenticated.value = false
-      user.value = undefined
+      errorMessage.value = 'Unknown error occured while logging in'
     } finally {
       isLoading.value = false
     }
@@ -62,6 +43,7 @@ export const useUserStore = defineStore('user', () => {
       user.value = await api.getSessionStatus()
       isAuthenticated.value = true
     } catch (error) {
+      // A marker to see in the logs where the session was terminated
       console.log('********* here ***********')
       isAuthenticated.value = false
     }
