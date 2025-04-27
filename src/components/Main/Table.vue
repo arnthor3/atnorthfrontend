@@ -86,7 +86,7 @@ const getDuration = (item: ServiceRequest) => {
         </tr>
         <tr v-if="isLoading">
           <td colspan="8">
-            <div class="block flex h-8 items-center justify-center py-8">
+            <div class="flex h-8 items-center justify-center py-8">
               <Spinner width="24" height="24" />
             </div>
           </td>

@@ -45,7 +45,7 @@ watch(isDropdown, (newValue) => {
 <template>
   <section class="relative" ref="sectionRef">
     <button class="cursor-pointer p-2" tabindex="0" @click="toggleDropdown">
-      <ChevronDown class="stroke-current" />
+      <ChevronDown width="16" height="16" class="stroke-current" />
     </button>
     <div
       v-if="isDropdown"
