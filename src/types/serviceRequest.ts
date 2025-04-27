@@ -1,6 +1,6 @@
 export type Status =
   | 'in_progress'
-  | 'waiting_to_start'
+  | 'waiting_for_start'
   | 'completed'
   | 'cancelled'
 

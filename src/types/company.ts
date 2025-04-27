@@ -1,7 +1,8 @@
 export type Company = {
   name: string
   id: string
-  sites: string[]
-  groups: string[]
-  users: string[]
+  notifications: number
+  sites: string | number
+  groups: string | number
+  users: string | number
 }

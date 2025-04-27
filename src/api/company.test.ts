@@ -24,5 +24,5 @@ test('getcompany should fail if bad company id', async () => {
 test('getcompany should work if logged in', async () => {
   const res = await getCompany(MOCK_USER_SESSION.company)
   expect(res).toBeDefined()
-  expect(res.groups.length).toBe(MOCK_COMPANY.groups.length)
+  expect(res.name).toBe(MOCK_COMPANY.name)
 })
