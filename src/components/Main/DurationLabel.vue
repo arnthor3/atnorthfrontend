@@ -10,7 +10,7 @@ type DurationLabelProps = {
 defineProps<DurationLabelProps>()
 const renderDurationLabel = ({ duration }: DurationLabelProps) => {
   if (duration?.weeks) {
-    return `~${duration.weeks} weeks`
+    return `~${duration.weeks} week`
   }
   if (duration.days) {
     return `${duration.days} days`

@@ -9,12 +9,10 @@ import { useServiceRequestStore } from '@/stores/serviceRequst'
 import { useCompanyStore } from '@/stores/company'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { useRouter } from 'vue-router'
 import { onMounted, onUnmounted, watchEffect } from 'vue'
 
-const router = useRouter()
 const userStore = useUserStore()
-const { user, isAuthenticated } = storeToRefs(userStore)
+const { user } = storeToRefs(userStore)
 const companyStore = useCompanyStore()
 const { company } = storeToRefs(companyStore)
 const serviceRequestStore = useServiceRequestStore()
@@ -68,7 +66,7 @@ onUnmounted(() => {
         <Sites width="42" />
       </DashboardCard>
       <DashboardCard label="Users" :value="company?.users">
-        <Users width="48" height="" />
+        <Users width="48" height="48" />
       </DashboardCard>
       <DashboardCard label="Groups" :value="company?.groups">
         <Groups width="42" />

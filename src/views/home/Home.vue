@@ -3,12 +3,21 @@ import Sidebar from '@/components/Sidebar.vue'
 import Header from '@/components/Header/Header.vue'
 import { useCompanyStore } from '@/stores/company'
 import { useServiceRequestStore } from '@/stores/serviceRequst'
-import { onUnmounted } from 'vue'
+import { onUnmounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNavigationStore } from '@/stores/navigations'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const store = useNavigationStore()
 const { isSideBarOpen } = storeToRefs(store)
+const { isAuthenticated } = storeToRefs(useUserStore())
 
+watch(isAuthenticated, (newVal) => {
+  if (!newVal) {
+    router.push('/login')
+  }
+})
 onUnmounted(() => {
   useCompanyStore().reset()
   useServiceRequestStore().reset()

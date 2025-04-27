@@ -31,6 +31,7 @@ function toggleDropdown(e: Event) {
   document.addEventListener('keydown', handleKeyDownEvent)
 }
 async function logOut(event: Event) {
+  console.log('clicked')
   event.stopPropagation()
   await store.logout()
   router.push('/login')
@@ -45,11 +46,11 @@ watch(isDropdown, (newValue) => {
 <template>
   <section class="relative" ref="sectionRef">
     <button class="cursor-pointer p-2" tabindex="0" @click="toggleDropdown">
-      <ChevronDown class="stroke-current" />
+      <ChevronDown width="16" height="16" class="stroke-current" />
     </button>
     <div
       v-if="isDropdown"
-      class="absolute top-full left-6 w-32 -translate-x-full bg-white shadow-md"
+      class="absolute top-full left-6 z-10 w-32 -translate-x-full bg-white shadow-md"
     >
       <ul>
         <li

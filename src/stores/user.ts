@@ -62,6 +62,7 @@ export const useUserStore = defineStore('user', () => {
       user.value = await api.getSessionStatus()
       isAuthenticated.value = true
     } catch (error) {
+      console.log('********* here ***********')
       isAuthenticated.value = false
     }
   }

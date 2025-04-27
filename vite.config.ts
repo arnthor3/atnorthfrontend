@@ -9,5 +9,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  build: {
+    target: 'esnext' // Or 'es2022' which is the specific version that introduced top-level await
   }
 })

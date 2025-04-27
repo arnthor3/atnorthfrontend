@@ -57,7 +57,9 @@ const getDuration = (item: ServiceRequest) => {
             {{ item.summary }}
           </td>
           <td class="table-cell"><StatusLabel :status="item.status" /></td>
-          <td class="table-cell">{{ item.serviceProject }}</td>
+          <td :title="item.serviceProject" class="table-cell">
+            {{ item.serviceProject }}
+          </td>
           <td class="table-cell">{{ item.requester }}</td>
           <td class="table-cell">
             <DurationLabel :duration="getDuration(item)" />
@@ -86,7 +88,7 @@ const getDuration = (item: ServiceRequest) => {
         </tr>
         <tr v-if="isLoading">
           <td colspan="8">
-            <div class="block flex h-8 items-center justify-center py-8">
+            <div class="flex h-8 items-center justify-center py-8">
               <Spinner width="24" height="24" />
             </div>
           </td>
