@@ -31,6 +31,7 @@ function toggleDropdown(e: Event) {
   document.addEventListener('keydown', handleKeyDownEvent)
 }
 async function logOut(event: Event) {
+  console.log('clicked')
   event.stopPropagation()
   await store.logout()
   router.push('/login')
@@ -49,7 +50,7 @@ watch(isDropdown, (newValue) => {
     </button>
     <div
       v-if="isDropdown"
-      class="absolute top-full left-6 w-32 -translate-x-full bg-white shadow-md"
+      class="absolute top-full left-6 z-10 w-32 -translate-x-full bg-white shadow-md"
     >
       <ul>
         <li

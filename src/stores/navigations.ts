@@ -5,7 +5,7 @@ export const useNavigationStore = defineStore('navigation', () => {
   const isSideBarOpen = ref(false)
 
   async function setSideBarState(value: boolean) {
-    isSideBarOpen.value = !isSideBarOpen.value
+    isSideBarOpen.value = value
   }
 
   return {

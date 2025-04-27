@@ -57,7 +57,9 @@ const getDuration = (item: ServiceRequest) => {
             {{ item.summary }}
           </td>
           <td class="table-cell"><StatusLabel :status="item.status" /></td>
-          <td class="table-cell">{{ item.serviceProject }}</td>
+          <td :title="item.serviceProject" class="table-cell">
+            {{ item.serviceProject }}
+          </td>
           <td class="table-cell">{{ item.requester }}</td>
           <td class="table-cell">
             <DurationLabel :duration="getDuration(item)" />

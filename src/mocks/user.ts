@@ -19,7 +19,7 @@ export const USER_CREDENTIALS: UserJsonBody = {
   password: 'test1234'
 }
 
-const SESSION_EXPIRY = 60 * 10
+const SESSION_EXPIRY = 5 * 60
 
 export const login = http.post('/api/login', async ({ request, cookies }) => {
   if (validateSession(cookies.sessionId)) {

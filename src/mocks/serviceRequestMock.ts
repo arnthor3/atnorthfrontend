@@ -1,5 +1,4 @@
 import type { ServiceRequest, Status } from '../types/serviceRequest'
-import { MOCK_COMPANY } from './company'
 
 const users = [
   'Olivia Davis',

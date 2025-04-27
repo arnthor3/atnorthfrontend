@@ -10,6 +10,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "composite": true,
+    "target": "ESNext",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
