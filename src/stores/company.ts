@@ -13,7 +13,7 @@ export const useCompanyStore = defineStore('company', () => {
     try {
       company.value = await api.getCompany(companyId)
     } catch (error) {
-      console.log(error)
+      console.error(error)
       if (error instanceof Error) {
         errorMessage.value = error.message
       }

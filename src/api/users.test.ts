@@ -23,8 +23,8 @@ test('login with wrong info should fail', async () => {
     })
     expect.fail('Login should have thrown an error for wrong credentials.')
   } catch (error: unknown) {
-    if (error instanceof HTTPError) {
-      expect(error.response.status).toBe(401)
+    if (error instanceof Error) {
+      expect(error.message).toBe('Invalid username or password')
     }
   }
   try {

@@ -18,6 +18,8 @@ const { company } = storeToRefs(companyStore)
 const serviceRequestStore = useServiceRequestStore()
 const { serviceRequests } = storeToRefs(serviceRequestStore)
 
+const MINUTE_IN_MS = 1000 * 60
+
 let pollingIntervalId: ReturnType<typeof setInterval> | null = null
 
 watchEffect(() => {
@@ -41,7 +43,7 @@ onMounted(() => {
     }
     userStore.getSession()
     companyStore.getCompany(user.value?.company)
-  }, 1000 * 10)
+  }, MINUTE_IN_MS)
 })
 
 onUnmounted(() => {
