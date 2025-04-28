@@ -7,7 +7,7 @@ type DashboardProps = {
 defineProps<DashboardProps>()
 </script>
 <template>
-  <section class="flex h-38 min-w-60 flex-col bg-blue-50 p-4">
+  <section class="flex h-38 min-w-60 flex-col rounded-lg bg-blue-50 p-4">
     <div class="flex w-full justify-between">
       <span class="text-[18px] font-bold">{{ label }}</span>
       <Questionmark></Questionmark>
