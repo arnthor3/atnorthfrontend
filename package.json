@@ -13,9 +13,7 @@
     "lint:fix": "eslint . --ext .vue,.js,.ts --fix --ignore-path .gitignore",
     "format:check": "prettier --check \"**/*.{ts,vue,js,json,md,css,scss}\" --ignore-path .gitignore",
     "format": "prettier --write \"**/*.{ts,vue,js,json,md,css,scss}\" --ignore-path .gitignore",
-    "postbuild": "node ./scripts/postbuild.cjs",
-    "build:docker": "docker build -t atnorth .",
-    "start:docker": "docker run -d -p 8080:80 atnorth"
+    "postbuild": "node ./scripts/postbuild.cjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
