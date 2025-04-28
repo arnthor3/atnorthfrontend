@@ -50,6 +50,7 @@ onUnmounted(() => {
     <button class="cursor-pointer p-2" tabindex="0" @click="toggleDropdown">
       <ChevronDown width="16" height="16" class="stroke-current" />
     </button>
+    <!-- If would not do this in production, I would use a portal node to render this -->
     <div
       v-if="isDropdown"
       class="absolute top-full left-6 z-10 w-32 -translate-x-full bg-white shadow-md"
