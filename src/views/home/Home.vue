@@ -2,7 +2,7 @@
 import Sidebar from '@/components/Sidebar.vue'
 import Header from '@/components/Header/Header.vue'
 import { useCompanyStore } from '@/stores/company'
-import { useServiceRequestStore } from '@/stores/serviceRequst'
+import { useServiceRequestStore } from '@/stores/serviceRequest'
 import { onUnmounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNavigationStore } from '@/stores/navigations'

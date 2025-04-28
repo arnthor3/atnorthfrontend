@@ -1,7 +1,7 @@
 import { test } from '../api/testExtend'
 import { expect, beforeEach } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
-import { useServiceRequestStore } from './serviceRequst'
+import { useServiceRequestStore } from './serviceRequest'
 import { MOCK_USER_SESSION, USER_CREDENTIALS } from '../mocks/user'
 
 import { login } from '../api/user'

@@ -18,24 +18,23 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true }
       },
       {
-        path: 'support', // Will match '/dashboard'
+        path: 'support',
         name: 'Support',
-        // Lazy load the component for better performance
-        component: () => import('@/views/home/support/Support.vue'), // Adjust path as needed
+
+        component: () => import('@/views/home/support/Support.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: 'data', // Will match '/dashboard'
+        path: 'data',
         name: 'Data',
-        // Lazy load the component for better performance
-        component: () => import('@/views/home/data/Data.vue'), // Adjust path as needed
+
+        component: () => import('@/views/home/data/Data.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: 'manager', // Will match '/dashboard'
+        path: 'manager',
         name: 'Manager',
-        // Lazy load the component for better performance
-        component: () => import('@/views/home/manager/Manager.vue'), // Adjust path as needed
+        component: () => import('@/views/home/manager/Manager.vue'),
         meta: { requiresAuth: true }
       }
     ]

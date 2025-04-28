@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useServiceRequestStore } from '@/stores/serviceRequst'
+import { useServiceRequestStore } from '@/stores/serviceRequest'
 import Spinner from '@/icons/Spinner.vue'
 import ChevronDown from '@/icons/ChevronDown.vue'
 import { format, intervalToDuration } from 'date-fns'
